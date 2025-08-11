@@ -1,0 +1,10 @@
+### GET request to example server
+PUT http://127.0.0.1:8000/api/users/2
+Accept: application/json
+Content-Type: application/json
+
+{
+    "name": "Updated Service Name"
+}
+
+###

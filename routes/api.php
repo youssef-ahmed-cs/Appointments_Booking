@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,3 +27,10 @@ Route::controller(ServiceController::class)->group(function () {
     Route::delete('services/{service}', 'destroy')->name('services.destroy');
 });
 
+Route::controller(UserController::class)->group(function () {
+    Route::get('users', 'index')->name('users.index');
+    Route::post('users', 'store')->name('users.store');
+    Route::get('users/{id}', 'show')->name('users.show');
+    Route::put('users/{id}', 'update')->name('users.update');
+    Route::delete('users/{id}', 'destroy')->name('users.destroy');
+});

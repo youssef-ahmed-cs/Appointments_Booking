@@ -23,7 +23,6 @@ class UserController extends Controller
         ], 201);
     }
 
-
     public function show(int $id)
     {
         $user = User::find($id);
