@@ -51,4 +51,18 @@ class ServiceController extends Controller
             'service' => $service
         ], 200);
     }
+
+    public function getServicesByProviderId($id)
+    {
+        $data = Service::where('provider_id', $id)->with('provider')->get();
+        if ($data->isEmpty()) {
+            return response()->json([
+                'message' => 'No services found for this provider'
+            ], 404);
+        }
+        return response()->json([
+            'message' => 'Services retrieved successfully',
+            'services' => $data
+        ],200);
+    }
 }

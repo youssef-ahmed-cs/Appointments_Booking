@@ -12,7 +12,7 @@ class AppointmentController extends Controller
 {
     public function index()
     {
-        return Appointment::with(['provider', 'client'])->get();
+        return Appointment::with(['provider', 'client'])->paginate(10);
     }
 
     public function store(StoreAppointmentRequest $request)
@@ -45,6 +45,40 @@ class AppointmentController extends Controller
         return response()->json([
             'message' => 'Appointment updated successfully',
             'appointment' => $appointment
+        ], 200);
+    }
+
+    public function getByClientId( $id) // This method retrieves appointments by client ID
+    {
+        $data = Appointment::where('client_id', $id)->with('client')->get();
+        return response()->json([
+            'message' => 'Appointments retrieved successfully',
+            'appointments' => $data
+        ], 200);
+    }
+
+    public function getByProviderId($id) # This method retrieves appointments by provider ID
+    {
+        $data = Appointment::where('client_id', $id)->with('provider')->get();
+        return response()->json([
+            'message' => 'Appointments retrieved successfully',
+            'appointments' => $data
+        ], 200);
+    }
+
+    public function getByServiceId(string $id)
+    {
+        $data = Appointment::where('service_id', $id)
+            ->with('service')
+            ->get();
+        if ($data->isEmpty()) {
+            return response()->json([
+                'message' => 'No appointments found for this service',
+            ], 404);
+        }
+        return response()->json([
+            'message' => 'Appointments retrieved successfully',
+            'appointments' => $data
         ], 200);
     }
 }

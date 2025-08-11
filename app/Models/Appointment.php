@@ -20,7 +20,6 @@ class Appointment extends Model
         'notes',
     ];
 
-
     public function client():belongsTo
     {
         return $this->belongsTo(User::class, 'client_id');

@@ -1,0 +1,11 @@
+### PATECH request to update an available slot
+PATCH http://127.0.0.1:8000/api/available-slots/2
+Accept: application/json
+Content-Type: application/json
+
+{
+    "provider_id": 2,
+    "date": "2023-10-01"
+}
+
+###

@@ -35,19 +35,36 @@ class AvailableSlotController extends Controller
     }
 
     public function destroy($id){
-        $available_slot = AvailableSlot::with('provider')->findOrFail($id);
+        $available_slot = AvailableSlot::findOrFail($id);
         $available_slot->delete();
         return response()->json([
             'message' => 'Available slot deleted successfully',
             'available_slot' => $available_slot
         ]);
     }
-    public function update(UpdateAvailableSlot $request){
-        $available_slot = AvailableSlot::with('provider')->findOrFail($id);
-        $available_slot->update();
+    public function update(UpdateAvailableSlot $request, $id)
+    {
+        $available_slot = AvailableSlot::findOrFail($id);
+        $available_slot->update($request->validated());
         return response()->json([
-            'message' => 'Available slot deleted successfully',
+            'message' => 'Available slot updated successfully',
             'available_slot' => $available_slot
         ]);
+    }
+
+    public function getByProvider($providerId)
+    {
+        $data = AvailableSlot::where('provider_id', $providerId)
+            ->with('provider')
+            ->get();
+        if ($data->isEmpty()) {
+            return response()->json([
+                'message' => 'No available slots found for this provider',
+            ], 404);
+        }
+        return response()->json([
+            'message' => 'Available slots retrieved successfully',
+            'available_slots' => $data
+        ], 200);
     }
 }
