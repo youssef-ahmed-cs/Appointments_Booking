@@ -1,0 +1,19 @@
+### POST request to add a new appointment
+POST http://127.0.0.1:8000/api/appointments
+Accept: application/json
+Content-Type: application/json
+
+{
+    "client_id": 5,
+    "provider_id": 1,
+    "service_id": 4,
+    "date": "2025-08-19",
+    "start_time": "14:11",
+    "end_time": "14:41",
+    "status": "completed",
+    "notes": "Ab nulla aut dignissimos voluptatibus militia esse."
+}
+
+
+
+###

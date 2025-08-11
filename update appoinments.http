@@ -1,0 +1,12 @@
+### PUT request to update appointments
+PUT http://127.0.0.1:8000/api/appointments/2
+Content-Type: application/json
+Accept: application/json
+
+{
+    "provider_id" : 2,
+    "service_id" : 3,
+    "client_id" : 7
+}
+
+###
