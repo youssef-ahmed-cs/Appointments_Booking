@@ -1,61 +1,367 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📅 Appointments Booking API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A comprehensive RESTful API built with Laravel 12 for managing appointment bookings between service providers and clients. The API supports JWT authentication via Laravel Sanctum, email notifications, and a complete appointment management system.
 
-## About Laravel
+## 🚀 Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **User Management**: Support for multiple user roles (Admin, Provider, Client)
+- **Service Management**: Create and manage services offered by providers
+- **Appointment Booking**: Complete appointment lifecycle management
+- **Available Slots**: Manage provider availability
+- **JWT Authentication**: Secure API authentication using Laravel Sanctum
+- **Email Notifications**: Built-in email support for appointment confirmations
+- **Role-based Access**: Different permissions for different user types
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🛠️ Tech Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Framework**: Laravel 12
+- **PHP Version**: ^8.2
+- **Authentication**: Laravel Sanctum (JWT)
+- **Database**: MySQL/PostgreSQL/SQLite
+- **Email**: Laravel Mail with multiple driver support
+- **Testing**: PHPUnit
 
-## Learning Laravel
+## 📋 Requirements
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- PHP 8.2 or higher
+- Composer
+- Node.js & NPM
+- Database (MySQL, PostgreSQL, or SQLite)
+- Mail server (optional, for email notifications)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## ⚡ Quick Start
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Installation
 
-## Laravel Sponsors
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd Appointments_Booking
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+2. **Install dependencies**
+   ```bash
+   composer install
+   npm install
+   ```
 
-### Premium Partners
+3. **Environment setup**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+4. **Configure your `.env` file**
+   ```env
+   # Database Configuration
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=appointments_booking
+   DB_USERNAME=your_username
+   DB_PASSWORD=your_password
 
-## Contributing
+   # Mail Configuration
+   MAIL_MAILER=smtp
+   MAIL_HOST=your_smtp_host
+   MAIL_PORT=587
+   MAIL_USERNAME=your_email@example.com
+   MAIL_PASSWORD=your_password
+   MAIL_ENCRYPTION=tls
+   MAIL_FROM_ADDRESS=your_email@example.com
+   MAIL_FROM_NAME="Appointments Booking"
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+   # Sanctum Configuration
+   SANCTUM_STATEFUL_DOMAINS=localhost:3000,127.0.0.1:3000
+   ```
 
-## Code of Conduct
+5. **Run migrations and seeders**
+   ```bash
+   php artisan migrate
+   php artisan db:seed
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+6. **Start the development server**
+   ```bash
+   php artisan serve
+   # Or use the dev script for full development environment
+   composer run dev
+   ```
 
-## Security Vulnerabilities
+## 🗄️ Database Schema
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Users Table
+- `id`: Primary key
+- `name`: User's full name
+- `email`: Email address (unique)
+- `password`: Hashed password
+- `role`: User role (admin, provider, client)
+- `phone`: Contact phone number
+- `email_verified_at`: Email verification timestamp
 
-## License
+### Services Table
+- `id`: Primary key
+- `provider_id`: Foreign key to users table
+- `name`: Service name
+- `description`: Service description
+- `price`: Service price (decimal)
+- `duration_minutes`: Service duration in minutes
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Appointments Table
+- `id`: Primary key
+- `client_id`: Foreign key to users table
+- `provider_id`: Foreign key to users table
+- `service_id`: Foreign key to services table
+- `date`: Appointment date
+- `start_time`: Appointment start time
+- `end_time`: Appointment end time
+- `status`: Appointment status (pending, confirmed, cancelled, completed)
+- `notes`: Additional notes
+
+### Available Slots Table
+- `id`: Primary key
+- `provider_id`: Foreign key to users table
+- Additional time slot management fields
+
+## 🔐 Authentication
+
+The API uses Laravel Sanctum for JWT-based authentication. 
+
+### Getting Started with Authentication
+
+1. **Register/Create a user** (if registration endpoint exists)
+2. **Login to get a token**
+   ```bash
+   POST /api/login
+   {
+     "email": "user@example.com",
+     "password": "password"
+   }
+   ```
+3. **Use the token in subsequent requests**
+   ```bash
+   Authorization: Bearer {your_token}
+   ```
+
+### Protected Routes
+Most API endpoints require authentication. Include the `Authorization` header with your Bearer token.
+
+## 📚 API Endpoints
+
+### Users
+- `GET /api/users` - List all users
+- `POST /api/users` - Create a new user
+- `GET /api/users/{id}` - Get user by ID
+- `PUT /api/users/{id}` - Update user
+- `DELETE /api/users/{id}` - Delete user
+
+### Services
+- `GET /api/services` - List all services
+- `POST /api/services` - Create a new service
+- `GET /api/services/{id}` - Get service by ID
+- `PUT /api/services/{id}` - Update service
+- `DELETE /api/services/{id}` - Delete service
+- `GET /api/services/provider/{id}` - Get services by provider
+
+### Appointments
+- `GET /api/appointments` - List all appointments
+- `POST /api/appointments` - Create a new appointment
+- `GET /api/appointments/{id}` - Get appointment by ID
+- `PUT /api/appointments/{id}` - Update appointment
+- `DELETE /api/appointments/{id}` - Delete appointment
+- `GET /api/appointment/client/{id}` - Get appointments by client
+- `GET /api/appointment/provider/{id}` - Get appointments by provider
+- `GET /api/appointment/service/{id}` - Get appointments by service
+
+### Available Slots
+- `GET /api/available-slots` - List all available slots
+- `POST /api/available-slots` - Create a new slot
+- `GET /api/available-slots/{id}` - Get slot by ID
+- `PATCH /api/available-slots/{id}` - Update slot
+- `DELETE /api/available-slots/{id}` - Delete slot
+- `GET /api/available-slots/provider/{id}` - Get slots by provider
+
+## 📧 Email Configuration
+
+The application supports multiple email drivers:
+
+### SMTP Configuration (Recommended)
+```env
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=your-email@gmail.com
+MAIL_PASSWORD=your-app-password
+MAIL_ENCRYPTION=tls
+```
+
+### Other Supported Drivers
+- **Postmark**: Set `MAIL_MAILER=postmark`
+- **Amazon SES**: Set `MAIL_MAILER=ses`
+- **Resend**: Set `MAIL_MAILER=resend`
+- **Log**: Set `MAIL_MAILER=log` (for development)
+
+## 👥 User Roles
+
+The system supports three user roles:
+
+### 🔧 Admin
+- Full system access
+- Can manage all users, services, and appointments
+- System configuration access
+
+### 👨‍⚕️ Provider
+- Can create and manage their services
+- Can manage their available time slots
+- Can view and manage their appointments
+- Can update appointment status
+
+### 👤 Client
+- Can view available services
+- Can book appointments
+- Can view their own appointments
+- Can cancel their appointments
+
+## 🧪 Testing
+
+Run the test suite:
+
+```bash
+# Run all tests
+php artisan test
+
+# Run with coverage
+php artisan test --coverage
+
+# Run specific test file
+php artisan test tests/Feature/AppointmentTest.php
+```
+
+## 🚀 Development
+
+### Using the Development Script
+```bash
+composer run dev
+```
+This command starts:
+- Laravel development server
+- Queue worker
+- Log monitoring (Pail)
+- Vite development server
+
+### Code Quality
+```bash
+# Format code with Pint
+./vendor/bin/pint
+
+# Run static analysis
+./vendor/bin/phpstan analyse
+```
+
+## 📦 Deployment
+
+### Production Setup
+
+1. **Environment Configuration**
+   ```bash
+   php artisan config:cache
+   php artisan route:cache
+   php artisan view:cache
+   ```
+
+2. **Database Migration**
+   ```bash
+   php artisan migrate --force
+   ```
+
+3. **Optimize for Production**
+   ```bash
+   composer install --no-dev --optimize-autoloader
+   php artisan optimize
+   ```
+
+## 🔧 Configuration
+
+### Queue Configuration
+For email notifications and background jobs:
+```env
+QUEUE_CONNECTION=database
+# Or use Redis for better performance
+QUEUE_CONNECTION=redis
+```
+
+### Sanctum Configuration
+```env
+SANCTUM_STATEFUL_DOMAINS=your-frontend-domain.com
+SESSION_DRIVER=cookie
+SESSION_LIFETIME=120
+```
+
+## 📝 Example Usage
+
+### Creating an Appointment
+```bash
+POST /api/appointments
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "client_id": 1,
+  "provider_id": 2,
+  "service_id": 1,
+  "date": "2024-01-15",
+  "start_time": "09:00:00",
+  "end_time": "10:00:00",
+  "notes": "First-time consultation"
+}
+```
+
+### Response
+```json
+{
+  "message": "Appointment created successfully",
+  "appointment": {
+    "id": 1,
+    "client_id": 1,
+    "provider_id": 2,
+    "service_id": 1,
+    "date": "2024-01-15",
+    "start_time": "09:00:00",
+    "end_time": "10:00:00",
+    "status": "pending",
+    "notes": "First-time consultation",
+    "created_at": "2024-01-10T10:00:00.000000Z",
+    "updated_at": "2024-01-10T10:00:00.000000Z"
+  }
+}
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🆘 Support
+
+If you encounter any issues or have questions:
+
+1. Check the [Issues](../../issues) section
+2. Create a new issue if your problem isn't already reported
+3. Provide detailed information about your environment and the problem
+
+## 🙏 Acknowledgments
+
+- Built with [Laravel](https://laravel.com/)
+- Authentication powered by [Laravel Sanctum](https://laravel.com/docs/sanctum)
+- Email functionality via [Laravel Mail](https://laravel.com/docs/mail)
+
+---
+
+**Happy Coding! 🎉**
