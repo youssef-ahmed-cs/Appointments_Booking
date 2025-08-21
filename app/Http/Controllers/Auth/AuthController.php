@@ -1,6 +1,6 @@
 <?php
 #  Auth using JWT
-namespace App\Http\Controllers\auth;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AuthLoginRequest;
@@ -24,6 +24,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        
         $token = JWTAuth::fromUser($user);
         return response()->json([
             'token' => $token,
@@ -35,9 +36,9 @@ class AuthController extends Controller
     {
         $credentials = $request->only('email', 'password');
         try {
-            if (!$token = JWTAuth::attempt($credentials)) {
+            if (!$token = JWTAuth::attempt($credentials))
                 return response()->json(['error' => 'Invalid Credentials'], 400);
-            }
+
         } catch (ValidationException $e) {
             return response()->json(['error' => 'Invalid Credentials'], 500);
         }

@@ -17,9 +17,22 @@ class AuthRegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'unique|string|max:255',
-            'email' => 'email|string|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'name' => 'required|string|max:255|unique:users,name',
+            'email' => 'required|email|string|max:255|unique:users',
+            'password' => 'required|string|min:8',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Name is required.',
+            'name.unique' => 'This name is already taken.',
+            'email.required' => 'Email is required.',
+            'email.unique' => 'This email is already registered.',
+            'password.required' => 'Password is required.',
+            'password.confirmed' => 'Passwords do not match.',
+        ];
+    }
+
 }
